@@ -49,7 +49,7 @@ async function processBranch(
     const commentTag = "stale:" + branch.branchName;
 
     // Wait a bit to avoid rate limits
-    await new Promise(r => setTimeout(r, 1500));
+    await new Promise(r => setTimeout(r, 1000));
 
     return await commitComments.addCommitComments({
       commentTag,
@@ -83,11 +83,12 @@ async function processBranch(
     }
 
     // Wait a bit to avoid rate limits
-    await new Promise(r => setTimeout(r, 2000));
+    await new Promise(r => setTimeout(r, 1000));
 
     commitComments.deleteBranch(branch);
 
-    plan.comments.forEach((c) => {
+    plan.comments.forEach(async (c) => {
+      await new Promise(r => setTimeout(r, 1000));
       commitComments.deleteCommitComments({ commentId: c.id });
     });
   }

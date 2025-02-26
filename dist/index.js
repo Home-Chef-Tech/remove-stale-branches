@@ -30309,7 +30309,7 @@ function processBranch(plan, branch, commitComments, params) {
             }
             const commentTag = "stale:" + branch.branchName;
             // Wait a bit to avoid rate limits
-            yield new Promise(r => setTimeout(r, 1500));
+            yield new Promise(r => setTimeout(r, 1000));
             return yield commitComments.addCommitComments({
                 commentTag,
                 commitSHA: branch.commitId,
@@ -30329,11 +30329,12 @@ function processBranch(plan, branch, commitComments, params) {
                 return;
             }
             // Wait a bit to avoid rate limits
-            yield new Promise(r => setTimeout(r, 2000));
+            yield new Promise(r => setTimeout(r, 1000));
             commitComments.deleteBranch(branch);
-            plan.comments.forEach((c) => {
+            plan.comments.forEach((c) => __awaiter(this, void 0, void 0, function* () {
+                yield new Promise(r => setTimeout(r, 1000));
                 commitComments.deleteCommitComments({ commentId: c.id });
-            });
+            }));
         }
     });
 }
