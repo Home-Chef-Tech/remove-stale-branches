@@ -47,6 +47,10 @@ async function processBranch(
     }
 
     const commentTag = "stale:" + branch.branchName;
+
+    // Wait a bit to avoid rate limits
+    await new Promise(r => setTimeout(r, 1000));
+
     return await commitComments.addCommitComments({
       commentTag,
       commitSHA: branch.commitId,
@@ -78,9 +82,13 @@ async function processBranch(
       return;
     }
 
+    // Wait a bit to avoid rate limits
+    await new Promise(r => setTimeout(r, 1000));
+
     commitComments.deleteBranch(branch);
 
-    plan.comments.forEach((c) => {
+    plan.comments.forEach(async (c) => {
+      await new Promise(r => setTimeout(r, 1000));
       commitComments.deleteCommitComments({ commentId: c.id });
     });
   }
